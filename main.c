@@ -110,94 +110,34 @@ int main(){
 
     virtual_machine* vm = virtual_machine_new(200);
 
-    vm_register_set(vm, AH, 0x04);
-    vm_register_set(vm, AL, 0x03);
-
+    REGISTER_SET(AH, 0x0004);
+    REGISTER_SET(AL, 0x0005);
     vm_memory_set_register(vm, AX, 0);
+    vm_memory_print(vm, 0, 4);
 
-    vm_register_set(vm, AL, 0x01);
-
-    vm_memory_print(vm, 0, 5);
-    vm_register_set(vm, IP, 0);
+    //printf("AL:%d\n", REGISTER_GET_BYTE(AL));
+    interpreter_execute(vm);
+    //printf("AL:%d\n", REGISTER_GET_BYTE(AL));
 
     interpreter_execute(vm);
-    printf("%d\n", vm->registers[0]);
-    vm_memory_set_register(vm, AX, 0);
-    vm_memory_print(vm, 0, 5);
+
+    vm->memory[2] = 0xCD;
+    vm->memory[3] = 0x21;
+    vm->memory[4] = 0x76;
+    vm->memory[5] = 0x65;
+    vm->memory[6] = '$';
+    REGISTER_SET(AH, 0x2);
+    //REGISTER_SET(DL, 'a');
+    //REGISTER_SET(DL, 0x10);
+    //vm->registers[0] = 0x00000200;
+    //printf("%d\n", REGISTER_GET_BYTE(AH));
+    //vm_memory_print(vm, 0, 4);
+
+    interpreter_execute(vm);
+
+    printf("%d\n", REGISTER_GET_BYTE(AL));
 
     virtual_machine_destroy(vm);
-
-    /*
-    machine_memory_set_from_register(m, EAX, 100);
-    printf("%d", m->memory[100]);
-    printf("%d", m->memory[101]);
-    printf("%d", m->memory[102]);
-    printf("%d", m->memory[103]);
-
-    //printf("%s", load_file("main.asm"));
-
-    // create memory
-    int8_t* memory = (int8_t*)malloc(sizeof(int8_t) * 8 * 200);
-    for(int i = 0; i < 8 * 200; i++)
-        memory[i] = -1;
-
-    // write hello world to memory
-    memory_set_byte(memory, 0x000, 0x68);
-    memory_set_byte(memory, 0x001, 0x65);
-    memory_set_byte(memory, 0x002, 0x6c);
-    memory_set_byte(memory, 0x003, 0x6c);
-    memory_set_byte(memory, 0x004, 0x6f);
-    memory_set_byte(memory, 0x005, 0x20);
-    memory_set_byte(memory, 0x006, 0x77);
-    memory_set_byte(memory, 0x007, 0x6f);
-    memory_set_byte(memory, 0x008, 0x72);
-    memory_set_byte(memory, 0x009, 0x6c);
-    memory_set_byte(memory, 0x00A, 0x64);
-
-    int16_t AX = 1;
-    int16_t BX = 3;
-    int16_t CX = 0;
-    int16_t DX = 0;
-
-    char instruction[64] = {0};
-
-    while(1){
-        system("clear");
-
-        prints("AX: ");
-        DEBUG_REGISTRY_print(AX);
-        prints("BX: ");
-        DEBUG_REGISTRY_print(BX);
-        prints("CX: ");
-        DEBUG_REGISTRY_print(CX);
-        prints("DX: ");
-        DEBUG_REGISTRY_print(DX);
-
-        prints("\n");
-        //DEBUG_FLAGS_print(flags);
-
-        DEBUG_MEMORY_print(memory, 0, 5);
-        memory_set_word(memory, 0x000, AX);
-        memory_set_word(memory, 0x002, BX);
-
-        prints("instruction: ");
-        fgets(instruction, 64, stdin);
-        switch(instruction[0]){
-            case 'a':
-                OP_ADD(AX, BX);
-                break;
-            case 's':
-                OP_SUB(AX, BX);
-                break;
-            case 'm':
-                OP_MOL(AX, BX);
-                break;
-            case 'd':
-                OP_DIV(AX, BX);
-                break;
-        }
-    }
-    */
 
     return 0;
 }
