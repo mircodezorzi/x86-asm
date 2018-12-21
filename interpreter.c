@@ -31,27 +31,27 @@ interpreter_execute(virtual_machine* vm){
                     if(!FLAGS_GET(flag_zero))
                         vm->PC += MEMORY_GET_WORD(vm->MAR + 2);
                     else
-                        vm->CP += 4;
+                        vm->PC += 4;
                     break;
             }
 
         case OPCODE_JCXZ_SL:
-            if(!REGISTER_GET(CX))
+            if(!REGISTER_GET_WORD(CX))
                 vm->PC += MEMORY_GET_BYTE(vm->MAR + 1);
             else
-                vm->CP += 2;
+                vm->PC += 2;
             break;
         case OPCODE_JECXZ_SL:
-            if(!REGISTER_GET(CX) && MEMORY_GET_BYTE(vm-MAR + 1) == OPCODE_JCXZ_SL)
+            if(!REGISTER_GET_WORD(CX) && MEMORY_GET_BYTE(vm->MAR + 1) == OPCODE_JCXZ_SL)
                 vm->PC += MEMORY_GET_BYTE(vm->MAR + 2);
             else
-                vm->CP += 3;
+                vm->PC += 3;
             break;
         case OPCODE_JNE_SL:
             if(!FLAGS_GET(flag_zero))
                 vm->PC += MEMORY_GET_BYTE(vm->MAR + 1);
             else
-                vm->CP += 2;
+                vm->PC += 2;
             break;
 
         case OPCODE_MOV_AL_IB:

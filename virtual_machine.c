@@ -270,9 +270,9 @@ vm_memory_set_register(virtual_machine* vm, registry reg, uint32_t address){
     }
 }
 
-uint8_t
-vm_flags_get(virtual_machine* vm, flags){
-    switch(flags){
+int16_t
+vm_flags_get(virtual_machine* vm, flags flag){
+    switch(flag){
         case flag_carry:     return vm->flags & 0x0001;
         case flag_parity:    return vm->flags & 0x0002;
         case flag_auxiliary: return vm->flags & 0x0004;
@@ -287,7 +287,5 @@ vm_flags_get(virtual_machine* vm, flags){
 }
 
 void
-vm_flags_set(virtual_machine* vm, flags, uint8_t value){
-    switch(flags){
-    }
+vm_flags_set(virtual_machine* vm, flags flag, uint8_t value){
 }

@@ -6,7 +6,9 @@
 
 #define OPCODE_INT_IB 0xCD
 
-/* All conditional jumps have 2 byte opcodes, first byte is always 0F */
+/* All conditional long jumps have 2 byte opcodes, first byte is always 0F */
+
+#define OPCODE_LONG_JUMP 0x0F
 
 #define OPCODE_JCXZ_SL  0xE3
 #define OPCODE_JECXZ_SL 0x67

@@ -7,13 +7,10 @@
 #include "virtual_machine.h"
 #include "interpreter.h"
 
-#define debug_padding // add padding to output of DEBUG_print
-
-#define printi(integer) printf("%d", integer)
-#define prints(string) printf("%s", string)
+#define debug_padding
 
 #define sizeoftype(x) _Generic((x), \
-    int8_t:  8, \
+     int8_t:  8, \
     int16_t: 16, \
     default: 0)
 
@@ -47,36 +44,6 @@ void DEBUG_FLAGS_print(int8_t x){
         printf("%c: %c\n", " zs     "[i++], x & 1 ? '1' : '0');
         x >>= 1;
     }
-}
-
-uint16_t flags = 0x00;
-
-#define OP_MOV(a, b) OP_mov(&a, &b)
-#define OP_ADD(a, b) OP_add(&a, &b)
-#define OP_SUB(a, b) OP_sub(&a, &b)
-#define OP_MOL(a, b) OP_mol(&a, &b)
-#define OP_DIV(a, b) OP_div(&a, &b)
-#define OP_INC(a) OP_inc(&a)
-#define OP_DEC(a) OP_dec(&a)
-
-void OP_mov(int16_t* a, int16_t* b){ *a=*b; }
-void OP_add(int16_t* a, int16_t* b){ *a+=*b; }
-void OP_sub(int16_t* a, int16_t* b){ *a-=*b; }
-void OP_mol(int16_t* a, int16_t* b){ *a*=*b; }
-void OP_div(int16_t* a, int16_t* b){ *a/=*b; }
-
-void OP_inc(int16_t* a){
-    *a += 1;
-    flags = ((*a == 0) << 1) + ((*a < 0) << 2);
-//    for(uint8_t i = sizeof(*a * 8); i > 0; i /= 2 ) *a ^= *a >> i;
-//    flags |= ((~(*a) & 1) == 1  ? 0x08 : 0x0);
-}
-
-void OP_dec(int16_t* a){
-    *a -= 1;
-    flags = ((*a == 0) << 1) + ((*a < 0) << 2);
-//    for(uint8_t i = sizeof(*a * 8); i > 0; i /= 2 ) *a ^= *a >> i;
-//    flags |= ((~(*a) & 1) == 1  ? 0x08 : 0x0);
 }
 
 char* load_file(char* filepath){

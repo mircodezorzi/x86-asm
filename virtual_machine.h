@@ -58,6 +58,7 @@ typedef enum{
 
 /* flags */
 #define FLAGS_GET(flag)         vm_flags_get(vm, flag)
+#define FLAGS_SET(flag, val)    vm_flags_set(vm, flag, val)
 
 virtual_machine* virtual_machine_new(uint32_t);
 void    virtual_machine_destroy(virtual_machine*);
@@ -71,7 +72,7 @@ int32_t vm_memory_get_dword(virtual_machine*, uint32_t);
 void    vm_memory_set_register(virtual_machine*, registry, uint32_t);
 void    vm_memory_print(virtual_machine*, uint32_t, uint32_t);
 
-uint8_t vm_flags_get(virtual_machine*, flags);
+int16_t vm_flags_get(virtual_machine*, flags);
 void    vm_flags_set(virtual_machine*, flags, uint8_t);
 
 #endif /* VIRTUAL_MACHINE_H */
